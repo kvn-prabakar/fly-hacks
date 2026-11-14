@@ -29,6 +29,13 @@ class Match:
                     facing=np.array([-s, 0.0, 0.0]),
                     controller=make_controller(kind, brain)))
 
+    def set_move(self, player_id, dx, dz):
+        """Manual input for one player, world axes (x along court, z across), each -1..0..1.
+        Stays in effect until changed; call set_move(id, 0, 0) to stop. Normalised, so diagonals are not faster."""
+        v = np.array([dx, 0.0, dz], float)
+        n = np.linalg.norm(v)
+        self.players[player_id].move = v / n if n > 1 else v
+
     def toggle_lesion(self):
         self.lesion = not self.lesion
 

@@ -7,6 +7,7 @@ MAX_DODGE_SPEED = 6.0
 DODGE_TIME = 0.4
 RECOVER_TIME = 0.6
 MIN_DODGE = 0.05
+MOVE_SPEED = 4.0
 
 
 @dataclass
@@ -24,6 +25,7 @@ class Player:
     last_decision: object = None
     threats: int = 0
     dodges: int = 0
+    move: np.ndarray = field(default_factory=lambda: np.zeros(3))   # manual input, world x/z, set by Match.set_move
 
 
 class StillController:
@@ -90,3 +92,8 @@ def update_player(p: Player, balls, dt, lesion, rng, bounds):
                 p.state, p.timer, p.vel = "RECOVER", RECOVER_TIME, np.zeros(3)
         elif p.timer <= 0:
             p.state = "IDLE"
+    # manual movement (WASD); a dodge overrides it
+    if p.state != "DODGING" and (p.move[0] or p.move[2]):
+        p.pos += p.move * MOVE_SPEED * dt
+        lo, hi = bounds
+        p.pos[:] = np.clip(p.pos, lo, hi)

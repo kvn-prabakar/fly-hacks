@@ -39,3 +39,20 @@ def test_match_runs_60s():
         m.step(1 / 60)
     s = m.state()
     assert len(s["players"]) == 6 and s["stats"]["red"]["throws"] > 0
+
+
+def test_manual_move_and_bounds():
+    m = Match(StubBrain(), "still", "still")
+    start = m.players[0].pos.copy()
+    m.set_move(0, 1, 1)
+    for _ in range(30):
+        m.step(1 / 60)
+    d = m.players[0].pos - start
+    assert d[0] > 0 and d[2] > 0
+    for _ in range(600):
+        m.step(1 / 60)
+    assert m.players[0].pos[0] <= -0.5 + 1e-9      # cannot cross centre line
+    m.set_move(0, 0, 0)
+    p = m.players[0].pos.copy()
+    m.step(1 / 60)
+    assert (m.players[0].pos == p).all()
