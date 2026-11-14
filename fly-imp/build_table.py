@@ -11,7 +11,7 @@ import itertools
 import pickle
 import time
 
-from claudeimp.fly_brain import Connectome
+from fly_brain import Connectome
 
 GRID = [0, 10, 20, 35, 50, 75, 100, 150, 200]  # Hz applied to LC4/LPLC2
 
