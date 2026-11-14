@@ -1,1 +1,3 @@
-Pluh <3
+Python Ursina Fly Dodgeball simulation
+
+NumPy is used
