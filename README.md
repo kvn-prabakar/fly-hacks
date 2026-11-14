@@ -1,33 +1,102 @@
-Python Ursina Fly Dodgeball simulation
+# Fly Dodgeball
 
-NumPy is used
+A 3D dodgeball game where the blue team dodges using a real fruit fly brain (FlyWire connectome, Shiu et al. 2024 LIF model).
 
-## Fly brain setup
+## Installation
 
-Built on a simulated fruit fly brain (FlyWire connectome, 139k neurons, Shiu et al. 2024 integrate-and-fire model).
-
-### Layout
-- `notebooks/fly_brain_starter.ipynb`: original hackday notebook (runs in Colab)
-- `docs/Fly-Brain-Handbook.docx`: ideas, gotchas, resource links
-- `src/flybrain.py`: reusable `load_brain()` / `simulate()` / `rate()` / `lesion()`
-- `src/sanity_check.py`: handbook sanity checks
-
-### Setup (local)
 ```bash
 python -m venv .venv
-.venv\Scripts\activate        # Windows
+# Windows:
+.venv\Scripts\activate
+# Linux/Mac:
+source .venv/bin/activate
+
 pip install -r requirements.txt
-python src/sanity_check.py    # first run downloads data into data/ (gitignored)
 ```
 
-Optional 3D viewer / FlyWire API: `pip install -r requirements-viz.txt` (best on Python 3.10/3.11 or Colab).
-FlyWire token: https://global.daf-apis.com/auth/api/v1/create_token. Never commit it.
+## Data Download
 
-### Usage
-```python
-import sys; sys.path.insert(0, "src")
-from flybrain import load_brain
-b = load_brain()
-counts = b.simulate([(b.sugar, 200)])
-b.rate(counts, b.mn9)   # eat
+```bash
+python -m src.flybrain  # downloads connectome data to data/
 ```
+
+## Brain Sanity Check
+
+```bash
+python src/sanity_check.py
+```
+
+## Build Decision Table (for TableBrain)
+
+```bash
+# Small grid for testing (36 runs, ~2 min)
+python -m brain.build_table --small
+
+# Full grid (480 runs, ~10-20 min)
+python -m brain.build_table
+```
+
+## Run the Game
+
+### Arena (visual)
+```bash
+python -m arena.main
+```
+
+### Headless simulation
+```bash
+python -m game.sim --matches 50
+```
+
+### Headless check (for CI)
+```bash
+python -m arena.main --headless-check
+```
+
+## Controls
+
+- `L` - Toggle Giant Fibre lesion
+- `Space` - Pause/unpause
+- `R` - Reset match
+- `1` - Red team: Random controller
+- `2` - Red team: Still controller
+- `3` - Red team: Fly brain controller (requires table)
+- `Esc` - Quit
+
+## Project Structure
+
+```
+fly-hacks/
+├── src/
+│   ├── flybrain.py       # Fly brain simulation (Shiu et al. 2024)
+│   └── sanity_check.py   # Sanity checks
+├── brain/                # BRAIN role (table building)
+│   ├── download_data.py
+│   ├── connectome.py
+│   ├── lif.py
+│   ├── sanity.py
+│   ├── build_table.py
+│   └── table_brain.py
+├── game/                 # GAME role (headless simulation)
+│   ├── physics.py
+│   ├── players.py
+│   ├── throwers.py
+│   ├── threat.py
+│   └── sim.py
+├── arena/                # ARENA role (Ursina visualization)
+│   ├── scene.py
+│   ├── hud.py
+│   ├── main.py
+│   └── fake_match.py
+├── shared/               # Shared contracts
+│   ├── contracts.py
+│   └── stubs.py
+├── data/                 # Gitignored: parquet, csv, lookup tables
+└── tests/
+```
+
+## References
+
+- Shiu et al. 2024: "A complete model of the Drosophila brain"
+- FlyWire connectome
+- FlyWire annotations
