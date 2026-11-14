@@ -3,6 +3,7 @@
 Coordinates: x right, y up, origin bottom-left. The viewer flips y for drawing.
 No graphics dependency, so it can be tested without a window.
 """
+import hashlib
 import math
 import os
 import pickle
@@ -50,6 +51,10 @@ class Brain:
         path = path or os.path.join(HERE, "fly_table.pkl")
         self.real = os.path.exists(path)
         self.sig = {}
+        self.sha = ""
+        if self.real:
+            with open(path, "rb") as f:
+                self.sha = hashlib.sha256(f.read()).hexdigest()
         if not self.real:
             self.grid, self.spike_hz = None, 5.0
             return

@@ -1,0 +1,54 @@
+{
+  "verified_at_utc": "2026-11-14T19:40:55+00:00",
+  "method": "Re-ran the full-brain simulation (fly_brain.Connectome.simulate, Shiu et al. 2024 settings, public wiring files) with the table's own seeds and compared every descending neuron's rate.",
+  "all_match": true,
+  "seconds": 58,
+  "python": "3.13.3",
+  "numpy": "2.5.4",
+  "results": [
+    {
+      "variant": "intact",
+      "left_Hz": 50,
+      "right_Hz": 50,
+      "descending_neurons_compared": 1299,
+      "neurons_firing_in_fresh_run": 74,
+      "max_abs_difference_Hz": 0.0,
+      "table_giant_fibre_Hz": 161.25,
+      "fresh_giant_fibre_Hz": 161.25,
+      "match": true
+    },
+    {
+      "variant": "intact",
+      "left_Hz": 200,
+      "right_Hz": 0,
+      "descending_neurons_compared": 1299,
+      "neurons_firing_in_fresh_run": 129,
+      "max_abs_difference_Hz": 0.0,
+      "table_giant_fibre_Hz": 221.25,
+      "fresh_giant_fibre_Hz": 221.25,
+      "match": true
+    },
+    {
+      "variant": "intact",
+      "left_Hz": 0,
+      "right_Hz": 200,
+      "descending_neurons_compared": 1299,
+      "neurons_firing_in_fresh_run": 123,
+      "max_abs_difference_Hz": 0.0,
+      "table_giant_fibre_Hz": 228.75,
+      "fresh_giant_fibre_Hz": 228.75,
+      "match": true
+    },
+    {
+      "variant": "gf_cut",
+      "left_Hz": 100,
+      "right_Hz": 100,
+      "descending_neurons_compared": 1299,
+      "neurons_firing_in_fresh_run": 110,
+      "max_abs_difference_Hz": 0.0,
+      "table_giant_fibre_Hz": 0.0,
+      "fresh_giant_fibre_Hz": 0.0,
+      "match": true
+    }
+  ]
+}
