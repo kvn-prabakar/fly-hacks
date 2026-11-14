@@ -1,0 +1,5 @@
+# Optional: FlyWire API + 3D neuron plots (needs a token, may not install on Python 3.13; use Colab or 3.10/3.11)
+fafbseg==3.2.3
+navis==1.12.0
+plotly
+crackle-codec

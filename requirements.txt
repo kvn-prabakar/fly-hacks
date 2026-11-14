@@ -1,0 +1,6 @@
+# Core: enough to run the simulation (no token needed)
+numpy
+pandas
+scipy
+pyarrow
+jupyter
