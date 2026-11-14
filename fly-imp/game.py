@@ -3,7 +3,8 @@
     python game.py                 # play / watch
     python game.py --seed 3        # different ball sequence
 
-Keys:  L lesion the Giant Fibre   1 fly brain   2 dumb distance rule   3 never dodges
+Keys:  1 fly brain   2 dumb distance rule   3 never dodges   4 brain timing + geometry aim
+       L silence the Giant Fibre   B blind an eye (none -> left -> right)
        R reset   SPACE pause   +/- ball rate   click: throw a ball at the fly   ESC quit
 """
 import argparse
@@ -87,8 +88,11 @@ def draw_hud(surf, w, font, small, paused):
     y0 = ARENA_PX[1]
     surf.fill((20, 22, 28), (0, y0, WIN[0], HUD_H))
     brain = "REAL connectome table" if w.brain.real else "PLACEHOLDER table (run build_table.py)"
-    pol = {"fly": "fly brain", "dumb": "dumb distance rule", "none": "never dodges"}[w.policy]
-    lesion = "  [GIANT FIBRE LESIONED]" if (w.lesion and w.policy == "fly") else ""
+    pol = {"fly": "fly brain", "dumb": "dumb distance rule", "none": "never dodges",
+           "fly_geo": "brain timing + geometry aim"}[w.policy]
+    brainy = w.policy in ("fly", "fly_geo")
+    lesion = "  [GIANT FIBRE SILENCED]" if (w.lesion and brainy) else ""
+    lesion += {None: "", "L": "  [LEFT EYE BLIND]", "R": "  [RIGHT EYE BLIND]"}[w.blind] if brainy else ""
     surf.blit(font.render(f"{pol}{lesion}   |   {brain}{'   |   PAUSED' if paused else ''}", True, (235, 235, 240)), (12, y0 + 6))
     s = w.stats
     surf.blit(font.render(f"hits {s['hits']}    dodged {s['dodged']}    close calls {s['close']}    jumps {s['jumps']}    t={w.t:.0f}s",
@@ -99,8 +103,10 @@ def draw_hud(surf, w, font, small, paused):
         pygame.draw.rect(surf, (60, 64, 74), (x, y0 + 28, 180, 10))
         pygame.draw.rect(surf, (255, 150, 60), (x, y0 + 28, int(180 * hz / 200), 10))
     o = w.last_out
-    surf.blit(small.render(f"Giant Fibre {o['gf']:5.0f} Hz     MDN {o['mdn']:4.0f} Hz", True, (200, 200, 210)), (560, y0 + 46))
-    surf.blit(small.render("L lesion   1 fly   2 dumb   3 none   R reset   SPACE pause   +/- ball rate   click: throw a ball",
+    side = "left" if o["steer"] > 0.01 else "right" if o["steer"] < -0.01 else "none"
+    surf.blit(small.render(f"Giant Fibre {o['gf']:3.0f} Hz   MDN {o['mdn']:2.0f} Hz   threat side: {side}",
+                           True, (200, 200, 210)), (560, y0 + 46))
+    surf.blit(small.render("1 fly  2 dumb  3 none  4 brain+geometry  L lesion  B blind eye  R reset  SPACE pause  +/- rate  click: throw",
                            True, (130, 135, 150)), (12, y0 + 62))
 
 
@@ -128,8 +134,10 @@ def main():
             elif e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_l:
                     w.lesion = not w.lesion
-                elif e.key in (pygame.K_1, pygame.K_2, pygame.K_3):
-                    w.policy = {pygame.K_1: "fly", pygame.K_2: "dumb", pygame.K_3: "none"}[e.key]
+                elif e.key == pygame.K_b:
+                    w.blind = {None: "L", "L": "R", "R": None}[w.blind]
+                elif e.key in (pygame.K_1, pygame.K_2, pygame.K_3, pygame.K_4):
+                    w.policy = {pygame.K_1: "fly", pygame.K_2: "dumb", pygame.K_3: "none", pygame.K_4: "fly_geo"}[e.key]
                     w.reset(); effects.clear()
                 elif e.key == pygame.K_r:
                     w.reset(); effects.clear()

@@ -6,3 +6,5 @@ data/
 # never commit tokens
 *.token
 .env
+cache/
+*.part
