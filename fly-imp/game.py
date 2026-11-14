@@ -87,7 +87,7 @@ def draw_effects(surf, effects, t):
 def draw_hud(surf, w, font, small, paused):
     y0 = ARENA_PX[1]
     surf.fill((20, 22, 28), (0, y0, WIN[0], HUD_H))
-    brain = "REAL connectome table" if w.brain.real else "PLACEHOLDER table (run build_table.py)"
+    brain = f"REAL connectome table #{w.brain.sha[:8]}" if w.brain.real else "PLACEHOLDER table (run build_table.py)"
     pol = {"fly": "fly brain", "dumb": "dumb distance rule", "none": "never dodges",
            "fly_geo": "brain timing + geometry aim"}[w.policy]
     brainy = w.policy in ("fly", "fly_geo")

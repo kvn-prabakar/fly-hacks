@@ -15,6 +15,12 @@ LABELS_URL = (
     "https://github.com/flyconnectome/flywire_annotations/raw/main/"
     "supplemental_files/Supplemental_file1_neuron_annotations.tsv"
 )
+# Shiu et al. 2024 leaky integrate-and-fire settings. Fixed: do not tune.
+SHIU_CONSTANTS = {
+    "dt_ms": 0.1, "v_rest_mV": -52.0, "v_threshold_mV": -45.0, "tau_membrane_ms": 20.0,
+    "tau_synapse_ms": 5.0, "refractory_ms": 2.2, "mV_per_synapse": 0.275,
+    "input_kick_mV": 250 * 0.275, "delay_ms": 1.8,
+}
 CACHE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cache")
 
 
@@ -77,8 +83,10 @@ class Connectome:
         Shiu et al. 2024 leaky integrate-and-fire settings."""
         W = self.W if W is None else W
         N = self.N
-        dt, v0, vth, tm, ts, ref = 0.1, -52.0, -45.0, 20.0, 5.0, 2.2
-        wsyn, kick, delay = 0.275, 250 * 0.275, int(1.8 / 0.1)
+        K = SHIU_CONSTANTS
+        dt, v0, vth, tm, ts, ref = (K["dt_ms"], K["v_rest_mV"], K["v_threshold_mV"],
+                                    K["tau_membrane_ms"], K["tau_synapse_ms"], K["refractory_ms"])
+        wsyn, kick, delay = K["mV_per_synapse"], K["input_kick_mV"], int(K["delay_ms"] / dt)
         rng = np.random.default_rng(seed)
         v, g = np.full(N, v0), np.zeros(N)
         last, counts = np.full(N, -1e9), np.zeros(N, int)

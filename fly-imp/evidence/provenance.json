@@ -1,0 +1,174 @@
+{
+  "what": "Lookup table of a whole-brain fruit fly simulation (FlyWire connectome, Shiu et al. 2024 model). Every number in the table is the spike rate of a real connectome neuron, produced by fly_brain.Connectome.simulate.",
+  "table": {
+    "file": "fly-imp/fly_table.pkl",
+    "sha256": "97ebd9a41c00d4ac221b32d45c72c13e4e056b7190fedcbc33d3aba9a6bc2eba",
+    "bytes": 180647,
+    "grid_hz": [
+      0,
+      10,
+      20,
+      35,
+      50,
+      75,
+      100,
+      150,
+      200
+    ],
+    "brain_ms_per_run": 200,
+    "seeds": [
+      0,
+      1
+    ],
+    "runs": 324,
+    "variants": [
+      "intact",
+      "gf_cut"
+    ],
+    "descending_neurons_stored": 251
+  },
+  "brain": {
+    "neurons": 138639,
+    "connections": 15091983,
+    "flywire_materialization": 783,
+    "model_settings_Shiu_2024": {
+      "dt_ms": 0.1,
+      "v_rest_mV": -52.0,
+      "v_threshold_mV": -45.0,
+      "tau_membrane_ms": 20.0,
+      "tau_synapse_ms": 5.0,
+      "refractory_ms": 2.2,
+      "mV_per_synapse": 0.275,
+      "input_kick_mV": 68.75,
+      "delay_ms": 1.8
+    },
+    "input_groups": {
+      "LC4+LPLC2 left": 162,
+      "LC4+LPLC2 right": 152
+    },
+    "readout_groups": {
+      "DNp01 (Giant Fibre)": 2,
+      "MDN": 4
+    }
+  },
+  "sources": {
+    "neurons.csv": {
+      "url": "https://github.com/philshiu/Drosophila_brain_model/raw/main/Completeness_783.csv",
+      "sha256": "bbb847a4cc2caaa7a16349722d220c087317b946d148d4d592d94d250617a311",
+      "bytes": 3327347
+    },
+    "wiring.parquet": {
+      "url": "https://github.com/philshiu/Drosophila_brain_model/raw/main/Connectivity_783.parquet",
+      "sha256": "efeb23fb99098e9c390f6869969b2a121a2ee92c833cfc45ecb2c1d8e1af0347",
+      "bytes": 100804642
+    },
+    "labels.tsv": {
+      "url": "https://github.com/flyconnectome/flywire_annotations/raw/main/supplemental_files/Supplemental_file1_neuron_annotations.tsv",
+      "sha256": "b214970b55d2fbe0853bba536fdcb9e28730f4eb7ab06f600491df795da683cd",
+      "bytes": 31720298
+    }
+  },
+  "checks_on_table": {
+    "no_input_gives_silence": true,
+    "giant_fibre_rate_at_200_200_Hz": 296.25,
+    "giant_fibre_max_when_silenced_Hz": 0.0,
+    "max_active_neurons_any_run": 1521.0
+  },
+  "example_rows": [
+    {
+      "left_Hz": 50,
+      "right_Hz": 0,
+      "variant": "intact",
+      "giant_fibre_Hz": 121.25,
+      "left_minus_right_descending_neurons_Hz": 315.0
+    },
+    {
+      "left_Hz": 0,
+      "right_Hz": 50,
+      "variant": "intact",
+      "giant_fibre_Hz": 127.5,
+      "left_minus_right_descending_neurons_Hz": -357.5
+    },
+    {
+      "left_Hz": 50,
+      "right_Hz": 50,
+      "variant": "intact",
+      "giant_fibre_Hz": 161.25,
+      "left_minus_right_descending_neurons_Hz": 165.0
+    },
+    {
+      "left_Hz": 200,
+      "right_Hz": 200,
+      "variant": "intact",
+      "giant_fibre_Hz": 296.25,
+      "left_minus_right_descending_neurons_Hz": 67.5
+    },
+    {
+      "left_Hz": 50,
+      "right_Hz": 0,
+      "variant": "gf_cut",
+      "giant_fibre_Hz": 0.0,
+      "left_minus_right_descending_neurons_Hz": 352.5
+    },
+    {
+      "left_Hz": 0,
+      "right_Hz": 50,
+      "variant": "gf_cut",
+      "giant_fibre_Hz": 0.0,
+      "left_minus_right_descending_neurons_Hz": -227.5
+    },
+    {
+      "left_Hz": 50,
+      "right_Hz": 50,
+      "variant": "gf_cut",
+      "giant_fibre_Hz": 0.0,
+      "left_minus_right_descending_neurons_Hz": 212.5
+    },
+    {
+      "left_Hz": 200,
+      "right_Hz": 200,
+      "variant": "gf_cut",
+      "giant_fibre_Hz": 0.0,
+      "left_minus_right_descending_neurons_Hz": 157.5
+    }
+  ],
+  "first_five_descending_neuron_ids": [
+    {
+      "flywire_root_id": 720575940624402173,
+      "cell_type": "DNpe053",
+      "side": "left"
+    },
+    {
+      "flywire_root_id": 720575940631082808,
+      "cell_type": "MDN",
+      "side": "left"
+    },
+    {
+      "flywire_root_id": 720575940608145026,
+      "cell_type": "DNpe027",
+      "side": "left"
+    },
+    {
+      "flywire_root_id": 720575940624801771,
+      "cell_type": "DNpe040",
+      "side": "left"
+    },
+    {
+      "flywire_root_id": 720575940610604078,
+      "cell_type": "DNge136",
+      "side": "right"
+    }
+  ],
+  "environment": {
+    "python": "3.13.3",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "platform": "Windows-11-10.0.26200-SP0"
+  },
+  "code": {
+    "git_commit": "74be81191cbe58753a6b2887c5129246e77bbf68",
+    "git_branch": "k/fly-brain",
+    "uncommitted_changes": true
+  },
+  "caveat": "This file is a description, not proof by itself. Run verify_brain.py to re-simulate the brain from the public Shiu et al. files and compare against the table."
+}

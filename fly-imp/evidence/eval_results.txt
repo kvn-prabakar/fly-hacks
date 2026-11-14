@@ -1,0 +1,13 @@
+brain: REAL connectome table
+180s per run, 12 seeds (same spawn timing and edges per seed; aim follows the fly)
+
+policy                                          hit %  hits from L from R  dodged  jumps
+fly brain (when and which side)            11.6 +/- 1.5   246    108    138    1863   1116
+fly brain, Giant Fibre silenced            31.5 +/- 2.5   667    311    356    1453      0
+fly brain, left eye blind                  17.2 +/- 2.2   361    266     95    1745    614
+fly brain, right eye blind                 17.8 +/- 1.7   375     91    284    1737    609
+brain says when, geometry aims              5.2 +/- 0.8   110     52     58    2001    890
+no brain: distance rule + geometry          6.7 +/- 1.7   141     63     78    1969   1851
+never dodges                               26.8 +/- 1.5   567    287    280    1550      0
+
+hit % = balls that hit the fly / balls thrown, mean over seeds +/- 95% interval
